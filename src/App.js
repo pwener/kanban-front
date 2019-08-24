@@ -1,25 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Kanban from './components/Kanban';
+
 
 function App() {
+  const createStory = () => {
+    return [
+      {id: 1, title: "Manter story", story: "Eu como usuário quero manter uma história de usuário, tal que possa descrever meu backlog", layer_id: 1},
+      {id: 2, title: "Manter layer", story: "Eu como usuário quero manter uma layer", layer_id: -1},
+      {id: 3, title: "Manter usuário", story: "Eu como usuário quero manter uma conta no sistema", layer_id: -1},
+      {id: 4, title: "Manter projeto", story: "Eu como usuário quero manter vários projetos ", layer_id: -1},
+    ];
+  }
+
+  const createLayers = () => {
+    return [
+      {id: 1, projectName: "lorem_ipsum", name: 'To Do', stories: [] },
+      {id: 2, projectName: "lorem_ipsum", name: 'Doing', stories: [] },
+      {id: 3, projectName: "lorem_ipsum", name: 'Done', stories: [] },
+      {id: 4, projectName: "lorem_ipsum", name: 'Archived', stories: [] },
+    ];
+  }
+
+  const id = 123;
+  const title = "Lorem ipsum";
+  const stories = createStory();
+  const layers = createLayers();
+  const project = { name: 'Lorem Ipsum'};
+  const isDetached = true;
+
+  const props = { id, title, stories, layers, project, isDetached };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Kanban  {...props} />
   );
 }
 
