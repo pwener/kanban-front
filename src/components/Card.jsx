@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CardModal from './CardModal';
 import { Card as BootstrapCard } from 'react-bootstrap';
 
@@ -16,6 +16,11 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 const isDetached = (id) => id === -1;
 
 const Card = ({ provided, snapshot, story }) => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <BootstrapCard
       ref={provided.innerRef}
@@ -26,7 +31,7 @@ const Card = ({ provided, snapshot, story }) => {
         provided.draggableProps.style,
       )}
       className={`p-1 m-2 bg-faded ${isDetached(story.layer_id) ? 'col-2' : 'col-11'}`}
-      onClick={() => console.info('show') }
+      onClick={handleShow}
     >
       <BootstrapCard.Body>
         <BootstrapCard.Title className="font-weight-bold">
@@ -36,7 +41,7 @@ const Card = ({ provided, snapshot, story }) => {
           {story.story.slice(0, 50) + '...'}
         </BootstrapCard.Text>
       </BootstrapCard.Body>
-      <CardModal {...story} />
+      <CardModal story={story} show={show} onHide={handleClose} />
     </BootstrapCard>
   );
 }
