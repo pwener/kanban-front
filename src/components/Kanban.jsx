@@ -3,7 +3,10 @@ import {
   DragDropContext,
 } from 'react-beautiful-dnd';
 import Layer from './Layer';
-import { Container, Row, Alert, Col } from 'react-bootstrap';
+import { Container, Row, Alert, Col, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import CardForm from './CardForm';
 
 /**
  * Help to reordering the result
@@ -42,6 +45,7 @@ const initialState = {
     type: '',
     message: '',
     visible: false,
+    isOpenCardFormModal: false,
   },
 };
 
@@ -135,9 +139,28 @@ class Kanban extends React.Component {
   };
 
   /**
+   * Add new card to detached layer
+   */
+  addCard = (newCard) => {
+    this.setState((prevState) => ({
+      stories: [
+        ...prevState.stories,
+        { ...newCard,
+          layer_id: -1, // ever go to detached
+          id: 7 // should be request for api
+        }
+      ],
+    }));
+  };
+
+  /**
    * Clean alert object
    */
   dismissAlert = () => this.setState({ alert: initialState.alert });
+
+  // Card form modal controls
+  handleCloseCardFormModal = () => this.setState({ isOpenCardFormModal: false });
+  handleOpenCardFormModal = () => this.setState({ isOpenCardFormModal: true });
 
   render() {
     const { project } = this.props;
@@ -145,61 +168,74 @@ class Kanban extends React.Component {
       stories,
       layers,
       alert,
+      isOpenCardFormModal,
     } = this.state;
 
     return (
-      <Container fluid className="pt-3">
-        <Row>
-          <Col md="auto">
-            <h3>
-              {project.name} <small>Kanban</small>
-            </h3>
-          </Col>
-        </Row>
-        { alert.visible ? (
+      <>
+        <CardForm
+          addCard={this.addCard}
+          show={isOpenCardFormModal}
+          onHide={this.handleCloseCardFormModal}
+        />
+        <Container fluid className="pt-3">
           <Row>
-            <Alert
-              dismissible
-              show={alert.visible}
-              variant={alert.type}
-              className="w-100 mt-3"
-            >
-              {alert.message}
-              <button
-                onClick={() => this.dismissAlert()}
-                type="button"
-                className="close"
-                data-dismiss="alert"
-                aria-label="Close"
+            <Col md="4">
+              <h3>
+                {project.name} <small>Kanban</small>
+              </h3>
+            </Col>
+            <Col md={{ span: 2, offset: 6 }}>
+              <Button variant="outline-primary" onClick={this.handleOpenCardFormModal}>
+                <FontAwesomeIcon icon={faPlus} />
+              </Button>
+            </Col>
+          </Row>
+          { alert.visible ? (
+            <Row>
+              <Alert
+                dismissible
+                show={alert.visible}
+                variant={alert.type}
+                className="w-100 mt-3"
               >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </Alert>
-          </Row>
-        ) : null}
+                {alert.message}
+                <button
+                  onClick={() => this.dismissAlert()}
+                  type="button"
+                  className="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </Alert>
+            </Row>
+          ) : null}
 
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <Row className="mt-3">
-            <Layer
-              id={-1} // just to notify that is a unvalid layer
-              title="Detached"
-              stories={stories.filter(s => s.layer_id === -1)}
-              isDetached
-            />
-          </Row>
-          <Row className="flex-row flex-sm-nowrap mt-3">
-            {
-              layers.map(l => (
-                <Layer
-                  id={l.id}
-                  title={l.name}
-                  stories={stories.filter(s => s.layer_id === l.id)}
-                />
-              ))
-            }
-          </Row>
-        </DragDropContext>
-      </Container>
+          <DragDropContext onDragEnd={this.onDragEnd}>
+            <Row className="mt-3">
+              <Layer
+                id={-1} // just to notify that is a unvalid layer
+                title="Detached"
+                stories={stories.filter(s => s.layer_id === -1)}
+                isDetached
+              />
+            </Row>
+            <Row className="flex-row flex-sm-nowrap mt-3">
+              {
+                layers.map(l => (
+                  <Layer
+                    id={l.id}
+                    title={l.name}
+                    stories={stories.filter(s => s.layer_id === l.id)}
+                  />
+                ))
+              }
+            </Row>
+          </DragDropContext>
+        </Container>
+      </>
     );
   }
 }

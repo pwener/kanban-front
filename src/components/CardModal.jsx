@@ -11,7 +11,7 @@ const CardModal = ({
       <Modal.Header closeButton>
         <Modal.Title>{story.title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{story.story}</Modal.Body>
+      <Modal.Body>{story.content}</Modal.Body>
     </Modal>
   </div>
 );

@@ -38,7 +38,7 @@ const Card = ({ provided, snapshot, story }) => {
           {story.title}
         </BootstrapCard.Title>
         <BootstrapCard.Text className="font-weight-normal">
-          {story.story.slice(0, 50) + '...'}
+          {story.content.slice(0, 50) + '...'}
         </BootstrapCard.Text>
       </BootstrapCard.Body>
       <CardModal story={story} show={show} onHide={handleClose} />
