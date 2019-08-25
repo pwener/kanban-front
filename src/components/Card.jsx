@@ -1,4 +1,6 @@
 import React from 'react';
+import CardModal from './CardModal';
+import { Card as BootstrapCard } from 'react-bootstrap';
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
@@ -13,26 +15,30 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
 const isDetached = (id) => id === -1;
 
-const Card = ({ provided, snapshot, story }) => (
-  <div
-    ref={provided.innerRef}
-    {...provided.draggableProps}
-    {...provided.dragHandleProps}
-    style={getItemStyle(
-      snapshot.isDragging,
-      provided.draggableProps.style,
-    )}
-    className={`card p-1 m-2 bg-faded ${isDetached(story.layer_id) ? 'col-2' : 'col-11'}`}
-  >
-    <div class="card-body">
-      <h5 className="card-title font-weight-bold">
-        {story.title}
-      </h5>
-      <span className="card-text font-weight-normal">
-        {story.story.slice(0, 50) + '...'}
-      </span>
-    </div>
-  </div>
-);
+const Card = ({ provided, snapshot, story }) => {
+  return (
+    <BootstrapCard
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      style={getItemStyle(
+        snapshot.isDragging,
+        provided.draggableProps.style,
+      )}
+      className={`p-1 m-2 bg-faded ${isDetached(story.layer_id) ? 'col-2' : 'col-11'}`}
+      onClick={() => console.info('show') }
+    >
+      <BootstrapCard.Body>
+        <BootstrapCard.Title className="font-weight-bold">
+          {story.title}
+        </BootstrapCard.Title>
+        <BootstrapCard.Text className="font-weight-normal">
+          {story.story.slice(0, 50) + '...'}
+        </BootstrapCard.Text>
+      </BootstrapCard.Body>
+      <CardModal {...story} />
+    </BootstrapCard>
+  );
+}
 
 export default Card;

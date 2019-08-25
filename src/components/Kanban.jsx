@@ -3,6 +3,7 @@ import {
   DragDropContext,
 } from 'react-beautiful-dnd';
 import Layer from './Layer';
+import { Container, Row, Alert, Col } from 'react-bootstrap';
 
 /**
  * Help to reordering the result
@@ -147,18 +148,22 @@ class Kanban extends React.Component {
     } = this.state;
 
     return (
-      <div className="container-fluid pt-3">
-        <div className="row">
-          <div className="col-md-auto">
+      <Container fluid className="pt-3">
+        <Row>
+          <Col md="auto">
             <h3>
               {project.name} <small>Kanban</small>
             </h3>
-          </div>
-        </div>
-
+          </Col>
+        </Row>
         { alert.visible ? (
-          <div className="row">
-            <div className={`alert alert-${alert.type} alert-dismissible w-100 mt-3`} role="alert">
+          <Row>
+            <Alert
+              dismissible
+              show={alert.visible}
+              variant={alert.type}
+              className="w-100 mt-3"
+            >
               {alert.message}
               <button
                 onClick={() => this.dismissAlert()}
@@ -169,21 +174,20 @@ class Kanban extends React.Component {
               >
                 <span aria-hidden="true">&times;</span>
               </button>
-            </div>
-          </div>
-        ) : null
-        }
+            </Alert>
+          </Row>
+        ) : null}
 
         <DragDropContext onDragEnd={this.onDragEnd}>
-          <div className="row mt-3">
+          <Row className="mt-3">
             <Layer
               id={-1} // just to notify that is a unvalid layer
               title="Detached"
               stories={stories.filter(s => s.layer_id === -1)}
               isDetached
             />
-          </div>
-          <div className="row flex-row flex-sm-nowrap mt-3">
+          </Row>
+          <Row className="flex-row flex-sm-nowrap mt-3">
             {
               layers.map(l => (
                 <Layer
@@ -193,9 +197,9 @@ class Kanban extends React.Component {
                 />
               ))
             }
-          </div>
+          </Row>
         </DragDropContext>
-      </div>
+      </Container>
     );
   }
 }

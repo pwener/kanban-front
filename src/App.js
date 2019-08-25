@@ -1,6 +1,6 @@
 import React from 'react';
 import Kanban from './components/Kanban';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const createStory = () => {

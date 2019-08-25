@@ -3,6 +3,7 @@ import {
   Draggable,
   Droppable,
 } from 'react-beautiful-dnd';
+import { Card as BootstrapCard, Row } from 'react-bootstrap';
 
 import Card from './Card';
 
@@ -20,8 +21,8 @@ const Layer = ({
         className={isDetached ? 'col-12' : 'col-3'}
         {...provided.droppableProps}
       >
-        <div className="card">
-          <div className="card-body">
+        <BootstrapCard>
+          <BootstrapCard.Body>
             <button
               hidden={id === -1}
               type="button"
@@ -31,10 +32,10 @@ const Layer = ({
             >
               <span aria-hidden="true">&times;</span>
             </button>
-            <h4 className="card-title text-truncate py-2">
+            <BootstrapCard.Title className="text-truncate py-2">
               {title}
-            </h4>
-            <div className={isDetached ? 'row' : ''}>
+            </BootstrapCard.Title>
+            <Row className={isDetached ? 'row' : ''}>
               { stories.map((story, index) => (
                 <Draggable
                   key={story.id}
@@ -47,9 +48,9 @@ const Layer = ({
                 </Draggable>
               ))}
               { provided.placeholder }
-            </div>
-          </div>
-        </div>
+            </Row>
+          </BootstrapCard.Body>
+        </BootstrapCard>
       </div>
     )}
   </Droppable>
