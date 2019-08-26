@@ -7,6 +7,7 @@ import { Container, Row, Alert, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import CardForm from './CardForm';
+import LayerForm from './LayerForm';
 
 /**
  * Help to reordering the result
@@ -46,6 +47,7 @@ const initialState = {
     message: '',
     visible: false,
     isOpenCardFormModal: false,
+    isOpenLayerFormModal: false,
   },
 };
 
@@ -142,6 +144,7 @@ class Kanban extends React.Component {
    * Add new card to detached layer
    */
   addCard = (newCard) => {
+    // TODO should dismiss modal
     this.setState((prevState) => ({
       stories: [
         ...prevState.stories,
@@ -152,6 +155,20 @@ class Kanban extends React.Component {
       ],
     }));
   };
+
+  addLayer = (newLayer) => {
+    // TODO should dismiss modal
+    this.setState(prevState => ({
+      layers: [
+        ...prevState.layers,
+        { id: 7, 
+          projectName: "lorem_ipsum",
+          name: newLayer,
+          stories: [] 
+        },
+      ]
+    }));
+  }
 
   deleteLayer = (id) => {
     // show alert after request
@@ -169,6 +186,9 @@ class Kanban extends React.Component {
   // Card form modal controls
   handleCloseCardFormModal = () => this.setState({ isOpenCardFormModal: false });
   handleOpenCardFormModal = () => this.setState({ isOpenCardFormModal: true });
+  
+  handleOpenLayerModal = () => this.setState({ isOpenLayerFormModal: true });
+  handleCloseLayerModal = () => this.setState({ isOpenLayerFormModal: false });
 
   render() {
     const { project } = this.props;
@@ -177,6 +197,7 @@ class Kanban extends React.Component {
       layers,
       alert,
       isOpenCardFormModal,
+      isOpenLayerFormModal
     } = this.state;
 
     return (
@@ -186,6 +207,11 @@ class Kanban extends React.Component {
           show={isOpenCardFormModal}
           onHide={this.handleCloseCardFormModal}
         />
+        <LayerForm
+          addLayer={this.addLayer}
+          show={isOpenLayerFormModal}
+          onHide={this.handleCloseLayerModal}
+        />
         <Container fluid className="pt-3">
           <Row>
             <Col md="4">
@@ -194,8 +220,18 @@ class Kanban extends React.Component {
               </h3>
             </Col>
             <Col md={{ span: 2, offset: 6 }}>
-              <Button variant="outline-primary" onClick={this.handleOpenCardFormModal}>
+              <Button
+                variant="outline-primary"
+                onClick={this.handleOpenCardFormModal}
+                style={{ marginRight: '1%'}}
+              >
                 Add Card <FontAwesomeIcon icon={faPlus} />
+              </Button>
+              <Button
+                variant="outline-primary"
+                onClick={this.handleOpenLayerModal}
+              >
+                Add Layer <FontAwesomeIcon icon={faPlus} />
               </Button>
             </Col>
           </Row>

@@ -6,20 +6,7 @@ import {
 import { Card as BootstrapCard, Row } from 'react-bootstrap';
 
 import Card from './Card';
-
-const TransientInput = ({
-  value,
-  onChange,
-  onBlur,
-}) => (
-  <input
-    type="text"
-    value={value}
-    onChange={(evt) => onChange(evt.target.value)}
-    onBlur={(evt) => onBlur(evt.target.value)}
-    style={{ border: 0 }}
-  />
-);
+import TransientInput from './TransientInput';
 
 /* eslint-disable react/prop-types */
 const Layer = ({
