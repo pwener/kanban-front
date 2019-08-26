@@ -12,21 +12,13 @@ function App() {
     ];
   }
 
-  const createLayers = () => {
-    return [
-      {id: 1, projectName: "lorem_ipsum", name: 'To Do', stories: [] },
-      {id: 2, projectName: "lorem_ipsum", name: 'Doing', stories: [] },
-    ];
-  }
-
   const id = 123;
   const title = "Lorem ipsum";
   const stories = createStory();
-  const layers = createLayers();
   const project = { name: 'Lorem Ipsum'};
   const isDetached = true;
 
-  const props = { id, title, stories, layers, project, isDetached };
+  const props = { id, title, stories, project, isDetached };
 
   return (
     <Kanban  {...props} />

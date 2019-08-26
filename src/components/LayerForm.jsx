@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { addLayer } from '../actions';
 
 const LayerForm = ({
   addLayer,
@@ -24,7 +26,7 @@ const LayerForm = ({
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => addLayer(layer)}>
+          <Button onClick={() => addLayer({id: 7, projectName: "lorem_ipsum", name: layer, stories: []})}>
             Add
           </Button>
         </Modal.Footer>
@@ -33,4 +35,10 @@ const LayerForm = ({
   );
 };
 
-export default LayerForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    addLayer: layer => { dispatch(addLayer(layer)) }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(LayerForm);

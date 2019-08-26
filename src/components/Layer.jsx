@@ -4,6 +4,8 @@ import {
   Droppable,
 } from 'react-beautiful-dnd';
 import { Card as BootstrapCard, Row } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { removeLayer } from '../actions';
 
 import Card from './Card';
 import TransientInput from './TransientInput';
@@ -14,7 +16,7 @@ const Layer = ({
     title,
     stories,
     isDetached,
-    deleteLayer,
+    removeLayer,
 }) => {
   const [ isEditingTitle, setIsEditingTitle ] = useState(false);
   const [ newTitle, setTitle ] = useState(title);
@@ -35,7 +37,7 @@ const Layer = ({
                 className="close"
                 data-dismiss="alert"
                 aria-label="Close"
-                onClick={() => deleteLayer(id)}
+                onClick={() => removeLayer(id)}
               >
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -73,4 +75,10 @@ const Layer = ({
   );
 };
 
-export default Layer;
+const mapDispatchToProps = dispatch => {
+  return {
+    removeLayer: layer => { dispatch(removeLayer(layer)) }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Layer);

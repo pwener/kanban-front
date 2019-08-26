@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import CardForm from './CardForm';
 import LayerForm from './LayerForm';
+import { connect } from 'react-redux';
 
 /**
  * Help to reordering the result
@@ -59,7 +60,6 @@ class Kanban extends React.Component {
       alert: initialState.alert,
       error: null,
       stories: this.updateEmptyId(props.stories),
-      layers: props.layers,
     };
   }
 
@@ -156,28 +156,6 @@ class Kanban extends React.Component {
     }));
   };
 
-  addLayer = (newLayer) => {
-    // TODO should dismiss modal
-    this.setState(prevState => ({
-      layers: [
-        ...prevState.layers,
-        { id: 7, 
-          projectName: "lorem_ipsum",
-          name: newLayer,
-          stories: [] 
-        },
-      ]
-    }));
-  }
-
-  deleteLayer = (id) => {
-    // show alert after request
-    // change stories in this layer to detached
-    this.setState(prevState => ({
-      layers: prevState.layers.filter(l => l.id !== id),
-    }));
-  }
-
   /**
    * Clean alert object
    */
@@ -191,10 +169,12 @@ class Kanban extends React.Component {
   handleCloseLayerModal = () => this.setState({ isOpenLayerFormModal: false });
 
   render() {
-    const { project } = this.props;
+    const {
+      project,
+      layers,
+    } = this.props;
     const {
       stories,
-      layers,
       alert,
       isOpenCardFormModal,
       isOpenLayerFormModal
@@ -208,7 +188,6 @@ class Kanban extends React.Component {
           onHide={this.handleCloseCardFormModal}
         />
         <LayerForm
-          addLayer={this.addLayer}
           show={isOpenLayerFormModal}
           onHide={this.handleCloseLayerModal}
         />
@@ -274,7 +253,6 @@ class Kanban extends React.Component {
                     id={l.id}
                     title={l.name}
                     stories={stories.filter(s => s.layer_id === l.id)}
-                    deleteLayer={this.deleteLayer}
                   />
                 ))
               }
@@ -284,6 +262,10 @@ class Kanban extends React.Component {
       </>
     );
   }
-}
+};
 
-export default Kanban;
+const mapStateToProps = store => ({
+  layers: store.layerReducer.layers
+});
+
+export default connect(mapStateToProps)(Kanban);
