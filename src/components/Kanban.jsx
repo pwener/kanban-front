@@ -114,7 +114,7 @@ class Kanban extends React.Component {
       const destinationId = destination.droppableId;
 
       // get story before move
-      const story = this.getList(sourceId)[source.index];
+      // const story = this.getList(sourceId)[source.index];
 
       // should submit story
 
@@ -187,7 +187,7 @@ class Kanban extends React.Component {
             </Col>
             <Col md={{ span: 2, offset: 6 }}>
               <Button variant="outline-primary" onClick={this.handleOpenCardFormModal}>
-                <FontAwesomeIcon icon={faPlus} />
+                Add Card <FontAwesomeIcon icon={faPlus} />
               </Button>
             </Col>
           </Row>
@@ -224,8 +224,9 @@ class Kanban extends React.Component {
             </Row>
             <Row className="flex-row flex-sm-nowrap mt-3">
               {
-                layers.map(l => (
+                layers.map((l, i) => (
                   <Layer
+                    key={i} // change to unique field
                     id={l.id}
                     title={l.name}
                     stories={stories.filter(s => s.layer_id === l.id)}

@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import CardModal from './CardModal';
 import { Card as BootstrapCard } from 'react-bootstrap';
 
-const getItemStyle = (isDragging, draggableStyle) => ({
+const getItemStyle = (isDragging, draggableStyle, bgColor) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
 
   // change background colour if dragging
-  background: isDragging ? '#E4E5E5' : '#f8f9fa',
+  // TODO apply darken function when is draggging
+  background: isDragging ? bgColor : bgColor,
 
   // styles we need to apply on draggables
   ...draggableStyle,
@@ -15,7 +16,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
 const isDetached = (id) => id === -1;
 
-const Card = ({ provided, snapshot, story }) => {
+const Card = ({ provided, snapshot, card }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -29,19 +30,20 @@ const Card = ({ provided, snapshot, story }) => {
       style={getItemStyle(
         snapshot.isDragging,
         provided.draggableProps.style,
+        card.color
       )}
-      className={`p-1 m-2 bg-faded ${isDetached(story.layer_id) ? 'col-2' : 'col-11'}`}
+      className={`p-1 m-2 bg-faded ${isDetached(card.layer_id) ? 'col-2' : 'col-11'}`}
       onClick={handleShow}
     >
       <BootstrapCard.Body>
         <BootstrapCard.Title className="font-weight-bold">
-          {story.title}
+          {card.title}
         </BootstrapCard.Title>
         <BootstrapCard.Text className="font-weight-normal">
-          {story.content.slice(0, 50) + '...'}
+          {card.content.slice(0, 50) + '...'}
         </BootstrapCard.Text>
       </BootstrapCard.Body>
-      <CardModal story={story} show={show} onHide={handleClose} />
+      <CardModal card={card} show={show} onHide={handleClose} />
     </BootstrapCard>
   );
 }

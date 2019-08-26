@@ -36,14 +36,14 @@ const Layer = ({
               {title}
             </BootstrapCard.Title>
             <Row className={isDetached ? 'row' : ''}>
-              { stories.map((story, index) => (
+              { stories.map((card, index) => (
                 <Draggable
-                  key={story.id}
-                  draggableId={story.id}
+                  key={card.id}
+                  draggableId={card.id}
                   index={index}
                 >
                   {(provided, snapshot) => 
-                    <Card provided={provided} snapshot={snapshot} story={story} />
+                    <Card provided={provided} snapshot={snapshot} card={card} />
                   }
                 </Draggable>
               ))}
