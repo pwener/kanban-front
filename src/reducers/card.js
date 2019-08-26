@@ -17,7 +17,6 @@ export default (state = initialState, action) => {
         cards: [...state.cards, action.card]
       };
     case CARD_REMOVE:
-      console.info(action.id);
       return {
         ...state,
         cards: state.cards.filter(c => c.id !== action.id)
@@ -25,9 +24,9 @@ export default (state = initialState, action) => {
     case CARD_UPDATE:
       return {
         ...state,
-        // layers: state.layers.map(
-        //   layer => layer.id === action.layer.id ? layer = action.layer : layer
-        // )
+        cards: state.cards.map(
+          card => card.id === action.card.id ? card = action.card : card,
+        )
       }
     case CARD_LIST_UPDATE:
       return {
