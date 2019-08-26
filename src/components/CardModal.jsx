@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import { Modal, DropdownButton, Dropdown } from 'react-bootstrap';
+import { CirclePicker } from 'react-color';
 
 /**
  * Custom Component to override background-color
@@ -34,6 +35,20 @@ const CardModal = ({
         <Modal.Title>{card.title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{card.content}</Modal.Body>
+      <Modal.Footer>
+        <DropdownButton
+          id="dropdown-item-button"
+          title="Change color"
+          variant="default"
+        >
+          <Dropdown.Item as="div">
+            <CirclePicker
+              color={card.color}
+              onChangeComplete={(color, _) => console.info(color)}
+            />
+          </Dropdown.Item>
+        </DropdownButton>
+      </Modal.Footer>
     </CustomModal>
   </div>
 );
