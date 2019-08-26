@@ -13,6 +13,7 @@ const Layer = ({
     title,
     stories,
     isDetached,
+    deleteLayer,
 }) => (
   <Droppable droppableId={id}>
     {provided => (
@@ -29,6 +30,7 @@ const Layer = ({
               className="close"
               data-dismiss="alert"
               aria-label="Close"
+              onClick={() => deleteLayer(id)}
             >
               <span aria-hidden="true">&times;</span>
             </button>

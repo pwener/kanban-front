@@ -153,6 +153,14 @@ class Kanban extends React.Component {
     }));
   };
 
+  deleteLayer = (id) => {
+    // show alert after request
+    // change stories in this layer to detached
+    this.setState(prevState => ({
+      layers: prevState.layers.filter(l => l.id !== id),
+    }));
+  }
+
   /**
    * Clean alert object
    */
@@ -230,6 +238,7 @@ class Kanban extends React.Component {
                     id={l.id}
                     title={l.name}
                     stories={stories.filter(s => s.layer_id === l.id)}
+                    deleteLayer={this.deleteLayer}
                   />
                 ))
               }
