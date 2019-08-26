@@ -17,6 +17,9 @@ const CustomModal = (props) => (
       .modal-header {
         border-bottom: 0;
       }
+      .modal-footer {
+        border-top: 0;
+      }
       `}
     </style>
 
