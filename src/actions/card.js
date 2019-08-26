@@ -7,7 +7,7 @@ const addCard = (card) => ({
 
 const removeCard = (id) => ({
   type: CARD_REMOVE,
-  layer: id,
+  id,
 });
 
 const updateCard = (card) => ({

@@ -1,6 +1,11 @@
 import React from 'react';
-import { Modal, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Modal, DropdownButton, Dropdown, Button } from 'react-bootstrap';
 import { CirclePicker } from 'react-color';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { removeCard } from '../actions';
 
 /**
  * Custom Component to override background-color
@@ -29,6 +34,7 @@ const CustomModal = (props) => (
 
 const CardModal = ({
   card,
+  removeCard,
   ...modalProps,
 }) => (
   // just to fix onHide bug
@@ -51,9 +57,15 @@ const CardModal = ({
             />
           </Dropdown.Item>
         </DropdownButton>
+        <Button onClick={() => removeCard(card.id)} variant="default">
+          <FontAwesomeIcon icon={faTrash} />
+        </Button>
       </Modal.Footer>
     </CustomModal>
   </div>
 );
 
-export default CardModal;
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ removeCard }, dispatch);
+
+export default connect(null, mapDispatchToProps)(CardModal);

@@ -17,9 +17,10 @@ export default (state = initialState, action) => {
         cards: [...state.cards, action.card]
       };
     case CARD_REMOVE:
+      console.info(action.id);
       return {
         ...state,
-        // layers: state.layers.filter(l => l.id !== action.layer)
+        cards: state.cards.filter(c => c.id !== action.id)
       };
     case CARD_UPDATE:
       return {
