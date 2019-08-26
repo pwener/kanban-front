@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { CirclePicker } from 'react-color';
+import { connect } from 'react-redux'; 
+import { bindActionCreators } from 'redux';
+import { addCard } from '../actions';
 
 const CardForm = ({
   addCard,
@@ -52,4 +55,8 @@ const CardForm = ({
   );
 };
 
-export default CardForm;
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ addCard }, dispatch);
+
+export default connect(null, mapDispatchToProps)(CardForm);

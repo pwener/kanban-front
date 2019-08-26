@@ -6,9 +6,13 @@ import Layer from './Layer';
 import { Container, Row, Alert, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import CardForm from './CardForm';
 import LayerForm from './LayerForm';
-import { connect } from 'react-redux';
+
+import { updateCardList } from '../actions/card';
 
 /**
  * Help to reordering the result
@@ -59,30 +63,15 @@ class Kanban extends React.Component {
     this.state = {
       alert: initialState.alert,
       error: null,
-      stories: this.updateEmptyId(props.stories),
     };
   }
 
   /**
-   * Generate new array with non-nullable values
-   */
-  updateEmptyId = (stories) => {
-    const list = [];
-
-    stories.forEach((s) => {
-      if (s.layer_id === null) {
-        list.push(Object.assign(s, { layer_id: -1 }));
-      }
-    });
-    return stories;
-  }
-
-  /**
-   * Returns a list of stories
+   * Returns a list of cards
    */
   getList = (id) => {
-    const { stories } = this.state;
-    return stories.filter(s => s.layer_id === id);
+    const { cards } = this.props;
+    return cards.filter(s => s.layer_id === id);
   }
 
   /**
@@ -90,6 +79,7 @@ class Kanban extends React.Component {
    */
   onDragEnd = (result) => {
     const { source, destination } = result;
+    const { updateCardList } = this.props;
 
     // dropped outside the list
     if (!destination) {
@@ -105,12 +95,12 @@ class Kanban extends React.Component {
         destination.index,
       );
 
-      const { stories } = this.state;
-      const storiesExceptLayer = stories.filter(s => s.layer_id !== layerId);
+      const { cards } = this.props;
+      const cardsExceptLayer = cards.filter(s => s.layer_id !== layerId);
 
-      this.setState({
-        stories: [...storiesExceptLayer, ...items],
-      });
+      updateCardList(
+        [...cardsExceptLayer, ...items],
+      );
     } else {
       const sourceId = source.droppableId;
       const destinationId = destination.droppableId;
@@ -127,33 +117,18 @@ class Kanban extends React.Component {
         destination,
       );
 
-      const updatedStories = [].concat(...Object.values(resultAfterMove));
+      const updatedCards = [].concat(...Object.values(resultAfterMove));
 
-      this.setState(prevState => ({
-        stories: [...prevState.stories, updatedStories],
+      updateCardList(updatedCards);
+      
+      this.setState({
         alert: {
           type: 'primary',
           message: 'Story moved in kanban',
           visible: true,
         },
-      }));
+      });
     }
-  };
-
-  /**
-   * Add new card to detached layer
-   */
-  addCard = (newCard) => {
-    // TODO should dismiss modal
-    this.setState((prevState) => ({
-      stories: [
-        ...prevState.stories,
-        { ...newCard,
-          layer_id: -1, // ever go to detached
-          id: 7 // should be request for api
-        }
-      ],
-    }));
   };
 
   /**
@@ -171,10 +146,11 @@ class Kanban extends React.Component {
   render() {
     const {
       project,
+      cards,
       layers,
     } = this.props;
+
     const {
-      stories,
       alert,
       isOpenCardFormModal,
       isOpenLayerFormModal
@@ -183,14 +159,15 @@ class Kanban extends React.Component {
     return (
       <>
         <CardForm
-          addCard={this.addCard}
           show={isOpenCardFormModal}
           onHide={this.handleCloseCardFormModal}
         />
+
         <LayerForm
           show={isOpenLayerFormModal}
           onHide={this.handleCloseLayerModal}
         />
+
         <Container fluid className="pt-3">
           <Row>
             <Col md="4">
@@ -240,8 +217,8 @@ class Kanban extends React.Component {
             <Row className="mt-3">
               <Layer
                 id={-1} // just to notify that is a unvalid layer
-                title="Detached"
-                stories={stories.filter(s => s.layer_id === -1)}
+                name="Detached"
+                stories={cards.filter(s => s.layer_id === -1)}
                 isDetached
               />
             </Row>
@@ -252,7 +229,7 @@ class Kanban extends React.Component {
                     key={i} // change to unique field
                     id={l.id}
                     name={l.name}
-                    stories={stories.filter(s => s.layer_id === l.id)}
+                    stories={cards.filter(s => s.layer_id === l.id)}
                   />
                 ))
               }
@@ -265,7 +242,11 @@ class Kanban extends React.Component {
 };
 
 const mapStateToProps = store => ({
-  layers: store.layerReducer.layers
+  layers: store.layerReducer.layers,
+  cards: store.cardReducer.cards
 });
 
-export default connect(mapStateToProps)(Kanban);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ updateCardList }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Kanban);
