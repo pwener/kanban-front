@@ -1,6 +1,7 @@
-import { addLayer, removeLayer } from './layer';
+import { addLayer, removeLayer, updateLayer } from './layer';
 
 export {
   addLayer,
-  removeLayer
+  removeLayer,
+  updateLayer,
 };

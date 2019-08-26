@@ -4,8 +4,9 @@ import {
   Droppable,
 } from 'react-beautiful-dnd';
 import { Card as BootstrapCard, Row } from 'react-bootstrap';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { removeLayer } from '../actions';
+import { removeLayer, updateLayer } from '../actions';
 
 import Card from './Card';
 import TransientInput from './TransientInput';
@@ -13,13 +14,14 @@ import TransientInput from './TransientInput';
 /* eslint-disable react/prop-types */
 const Layer = ({
     id,
-    title,
+    name,
     stories,
     isDetached,
     removeLayer,
+    updateLayer,
 }) => {
-  const [ isEditingTitle, setIsEditingTitle ] = useState(false);
-  const [ newTitle, setTitle ] = useState(title);
+  const [ isEditingName, setIsEditingName ] = useState(false);
+  const [ newName, setName ] = useState(name);
 
   return (
     <Droppable droppableId={id}>
@@ -41,16 +43,17 @@ const Layer = ({
               >
                 <span aria-hidden="true">&times;</span>
               </button>
-              <BootstrapCard.Title className="text-truncate py-2" onClick={() => setIsEditingTitle(true)}>
-                {isEditingTitle ?
+              <BootstrapCard.Title className="text-truncate py-2" onClick={() => setIsEditingName(true)}>
+                {isEditingName ?
                   <TransientInput
-                    value={newTitle}
-                    onChange={setTitle}
+                    value={newName}
+                    onChange={setName}
                     onBlur={() => {
-                      setIsEditingTitle(false);
+                      updateLayer({id, stories, name: newName});
+                      setIsEditingName(false);
                     }}
                   />
-                  : title
+                  : name
                 }
               </BootstrapCard.Title>
               <Row className={isDetached ? 'row' : ''}>
@@ -75,10 +78,7 @@ const Layer = ({
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    removeLayer: layer => { dispatch(removeLayer(layer)) }
-  }
-}
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ removeLayer, updateLayer}, dispatch);
 
 export default connect(null, mapDispatchToProps)(Layer);

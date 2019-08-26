@@ -251,7 +251,7 @@ class Kanban extends React.Component {
                   <Layer
                     key={i} // change to unique field
                     id={l.id}
-                    title={l.name}
+                    name={l.name}
                     stories={stories.filter(s => s.layer_id === l.id)}
                   />
                 ))
