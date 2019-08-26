@@ -16,8 +16,6 @@ function App() {
     return [
       {id: 1, projectName: "lorem_ipsum", name: 'To Do', stories: [] },
       {id: 2, projectName: "lorem_ipsum", name: 'Doing', stories: [] },
-      {id: 3, projectName: "lorem_ipsum", name: 'Done', stories: [] },
-      {id: 4, projectName: "lorem_ipsum", name: 'Archived', stories: [] },
     ];
   }
 
