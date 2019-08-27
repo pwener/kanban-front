@@ -44,7 +44,7 @@ const Layer = ({
                 <span aria-hidden="true">&times;</span>
               </button>
               <BootstrapCard.Title className="text-truncate py-2" onClick={() => setIsEditingName(true)}>
-                {isEditingName ?
+                {isEditingName && !isDetached ?
                   <TransientInput
                     value={newName}
                     onChange={setName}
