@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { InputGroup, Button } from 'react-bootstrap';
 
 const TransientInput = ({
   bgColor,
@@ -9,14 +9,16 @@ const TransientInput = ({
 }) => (
   <>
   <InputGroup>
-    <FormControl
+    <input
       value={value}
       onChange={(evt) => onChange(evt.target.value)}
       onBlur={() => onBlur()}
-      placeholder="Recipient's username"
-      aria-label="Recipient's username"
-      aria-describedby="basic-addon2"
-      style={{ backgroundColor: bgColor, border: 0 }}
+      style={{
+        backgroundColor: bgColor,
+        border: 'solid 1px #6c757d',
+        paddingLeft: '2%',
+        width: '80%'
+      }}
       size="lg"
     />
     <InputGroup.Append>
