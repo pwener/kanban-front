@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { addLayer } from '../actions';
+import { createList } from '../actions';
 
 const LayerForm = ({
-  addLayer,
+  createList,
   ...modalProps,
 }) => {
   const [layer, setLayer] = useState('');
@@ -19,14 +19,14 @@ const LayerForm = ({
               <Form.Label>Layer name</Form.Label>
               <Form.Control
                 placeholder="Choose something like To Do, Doing, Testing..."
-                value={layer.title}
+                value={layer.name}
                 onChange={evt => setLayer(evt.target.value)}
               />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => addLayer({id: 7, projectName: "lorem_ipsum", name: layer, stories: []})}>
+          <Button onClick={() => createList({name: layer})}>
             Add
           </Button>
         </Modal.Footer>
@@ -37,7 +37,7 @@ const LayerForm = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    addLayer: layer => { dispatch(addLayer(layer)) }
+    createList: layer => { dispatch(createList(layer)) }
   }
 }
 

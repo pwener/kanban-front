@@ -1,7 +1,8 @@
-import { addLayer, removeLayer, updateLayer } from './layer';
+import { createList, addLayer, removeLayer, updateLayer } from './layer';
 import { addCard, removeCard, updateCard } from './card';
 
 export {
+  createList,
   addLayer,
   removeLayer,
   updateLayer,

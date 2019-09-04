@@ -10,9 +10,10 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case LAYER_ADD:
+      const newLayer = { ...action.newLayer, id: action.newLayer._id };
       return {
         ...state,
-        layers: [...state.layers, action.newLayer]
+        layers: [...state.layers, newLayer]
       };
     case LAYER_REMOVE:
       return {
