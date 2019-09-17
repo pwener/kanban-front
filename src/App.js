@@ -13,8 +13,9 @@ const App = (props) => {
   const project = { name: 'Lorem Ipsum'};
   const isDetached = true;
 
+  // this client just will listen socket actions
   useEffect(() => {
-    socket.on("new list created", data => props.addLayer(data));
+    socket.on("add_list", data => props.addLayer(data));
   }, []);
 
   // TODO remove that

@@ -5,11 +5,9 @@ import axios from 'axios';
 const api = 'http://localhost:8000/lists';
 
 const createList = (list) => {
-  return (dispatch) => {
+  return () => {
+    // layer just will be added by channel
     return axios.post(`${api}/add`, list)
-      .then((res) => {
-        dispatch(addLayer(res.data));
-      })
       .catch((err) => {
         throw err;
       });
