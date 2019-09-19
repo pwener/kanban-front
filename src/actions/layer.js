@@ -1,8 +1,23 @@
-import { LAYER_ADD, LAYER_REMOVE, LAYER_UPDATE } from '../actions/actionTypes';
+import { LAYER_ADD, LAYER_LIST, LAYER_REMOVE, LAYER_UPDATE } from '../actions/actionTypes';
 import axios from 'axios';
 
 // TODO put in axios order
 const api = 'http://localhost:8000/lists';
+
+const fetchList = () => {
+  return (dispatch) => {
+    return axios.get(`${api}`)
+      .then(res => {
+        dispatch({
+          type: LAYER_LIST,
+          lists: res.data,
+        })
+      })
+      .catch(err => {
+        throw err
+      });
+  }
+}
 
 const createList = (list) => {
   return () => {
@@ -11,6 +26,15 @@ const createList = (list) => {
       .catch((err) => {
         throw err;
       });
+  }
+};
+
+const deleteList = (id) => {
+  return () => {
+    return axios.delete(`${api}/${id}`)
+      .catch(err => {
+        throw err;
+      })
   }
 }
 
@@ -34,4 +58,6 @@ export {
   removeLayer,
   updateLayer,
   createList,
+  deleteList,
+  fetchList,
 };

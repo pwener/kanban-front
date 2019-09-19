@@ -14,6 +14,8 @@ import LayerForm from './LayerForm';
 
 import { updateCardList } from '../actions/card';
 
+import { fetchList } from '../actions';
+
 /**
  * Help to reordering the result
  */ 
@@ -64,6 +66,10 @@ class Kanban extends React.Component {
       alert: initialState.alert,
       error: null,
     };
+  }
+
+  componentDidMount() {
+    this.props.fetchList();
   }
 
   /**
@@ -224,14 +230,14 @@ class Kanban extends React.Component {
             </Row>
             <Row className="flex-row flex-sm-nowrap mt-3">
               {
-                layers.map((l, i) => (
+                layers ? layers.map((l, i) => (
                   <Layer
                     key={i} // change to unique field
-                    id={l.id}
+                    id={l._id}
                     name={l.name}
-                    stories={cards.filter(s => s.layer_id === l.id)}
+                    stories={cards.filter(s => s.layer_id === l._id)}
                   />
-                ))
+                )) : null
               }
             </Row>
           </DragDropContext>
@@ -247,6 +253,6 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ updateCardList }, dispatch);
+  bindActionCreators({ updateCardList, fetchList }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kanban);

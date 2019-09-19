@@ -6,7 +6,7 @@ import {
 import { Card as BootstrapCard, Row } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { removeLayer, updateLayer } from '../actions';
+import { deleteList, updateLayer } from '../actions';
 
 import Card from './Card';
 import TransientInput from './TransientInput';
@@ -17,7 +17,7 @@ const Layer = ({
     name,
     stories,
     isDetached,
-    removeLayer,
+    deleteList,
     updateLayer,
 }) => {
   const [ isEditingName, setIsEditingName ] = useState(false);
@@ -39,7 +39,7 @@ const Layer = ({
                 className="close"
                 data-dismiss="alert"
                 aria-label="Close"
-                onClick={() => removeLayer(id)}
+                onClick={() => deleteList(id)}
               >
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -79,6 +79,6 @@ const Layer = ({
 };
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ removeLayer, updateLayer}, dispatch);
+  bindActionCreators({ deleteList, updateLayer}, dispatch);
 
 export default connect(null, mapDispatchToProps)(Layer);

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import socket from './utils/socket-io';
-import { addLayer } from './actions/layer';
+import { addLayer, removeLayer, updateLayer } from './actions/layer';
 
 const App = (props) => {
   const id = 123;
@@ -16,6 +16,8 @@ const App = (props) => {
   // this client just will listen socket actions
   useEffect(() => {
     socket.on("add_list", data => props.addLayer(data));
+    socket.on("delete_list", id => props.removeLayer(id));
+    socket.on("update_list", data => props.updateLayer(data));
   }, []);
 
   // TODO remove that
@@ -27,6 +29,6 @@ const App = (props) => {
 }
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ addLayer }, dispatch);
+  bindActionCreators({ addLayer, removeLayer, updateLayer }, dispatch);
 
 export default connect(null, mapDispatchToProps)(App);
