@@ -1,4 +1,10 @@
-import { LAYER_ADD, LAYER_LIST, LAYER_REMOVE, LAYER_UPDATE } from '../actions/actionTypes';
+import {
+  LAYER_ADD,
+  LAYER_LIST,
+  LAYER_REMOVE,
+  LAYER_UPDATE,
+} from '../actions/actionTypes';
+
 import axios from 'axios';
 
 // TODO put in axios order
@@ -19,9 +25,12 @@ const fetchList = () => {
   }
 }
 
+/**
+ * Send a new list using http request.
+ * This list should be syncronized in clients throught socket.io
+ */
 const createList = (list) => {
   return () => {
-    // layer just will be added by channel
     return axios.post(`${api}/add`, list)
       .catch((err) => {
         throw err;

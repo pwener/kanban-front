@@ -5,6 +5,7 @@ import { createList } from '../actions';
 
 const LayerForm = ({
   createList,
+  onHide,
   ...modalProps,
 }) => {
   const [layer, setLayer] = useState('');
@@ -26,7 +27,11 @@ const LayerForm = ({
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => createList({name: layer})}>
+          <Button
+            onClick={() => {
+              createList({name: layer});
+              onHide();
+          }}>
             Add
           </Button>
         </Modal.Footer>
