@@ -4,7 +4,8 @@ import {
   deleteList,
   addLayer,
   removeLayer,
-  updateLayer
+  updateLayer,
+  updateList,
 } from './layer';
 import { addCard, removeCard, updateCard } from './card';
 
@@ -18,4 +19,5 @@ export {
   addCard,
   removeCard,
   updateCard,
+  updateList,
 };

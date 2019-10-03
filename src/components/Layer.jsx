@@ -6,7 +6,7 @@ import {
 import { Card as BootstrapCard, Row } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { deleteList, updateLayer } from '../actions';
+import { deleteList, updateList } from '../actions';
 
 import Card from './Card';
 import TransientInput from './TransientInput';
@@ -18,7 +18,7 @@ const Layer = ({
     stories,
     isDetached,
     deleteList,
-    updateLayer,
+    updateList,
 }) => {
   const [ isEditingName, setIsEditingName ] = useState(false);
   const [ newName, setName ] = useState(name);
@@ -49,7 +49,7 @@ const Layer = ({
                     value={newName}
                     onChange={setName}
                     onBlur={() => {
-                      updateLayer({id, stories, name: newName});
+                      updateList({id, stories, name: newName});
                       setIsEditingName(false);
                     }}
                   />
@@ -79,6 +79,6 @@ const Layer = ({
 };
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ deleteList, updateLayer}, dispatch);
+  bindActionCreators({ deleteList, updateList}, dispatch);
 
 export default connect(null, mapDispatchToProps)(Layer);

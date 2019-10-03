@@ -38,6 +38,15 @@ const createList = (list) => {
   }
 };
 
+const updateList = (list) => {
+  return () => {
+    return axios.put(`${api}/update`, list)
+      .catch((err) => {
+        throw err;
+      });
+  }
+}
+
 const deleteList = (id) => {
   return () => {
     return axios.delete(`${api}/${id}`)
@@ -69,4 +78,5 @@ export {
   createList,
   deleteList,
   fetchList,
+  updateList,
 };

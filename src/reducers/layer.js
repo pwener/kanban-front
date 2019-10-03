@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         layers: state.layers.map(
-          layer => layer._id === action.layer._id ? layer = action.layer : layer
+          layer => layer._id === action.layer.id ? layer = action.layer : layer
         )
       }
     default:
