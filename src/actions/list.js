@@ -40,6 +40,7 @@ const reqCreateList = (list) => {
 
 const reqUpdateList = (list) => {
   return () => {
+    console.info(list);
     return axios.put(`${api}/update`, list)
       .catch((err) => {
         throw err;

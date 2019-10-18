@@ -13,12 +13,12 @@ import TransientInput from './TransientInput';
 
 /* eslint-disable react/prop-types */
 const List = ({
-    id,
-    name,
-    stories,
-    isDetached,
-    reqDeleteList,
-    reqUpdateList,
+  id,
+  name,
+  stories,
+  isDetached,
+  reqDeleteList,
+  reqUpdateList,
 }) => {
   const [ isEditingName, setIsEditingName ] = useState(false);
   const [ newName, setName ] = useState(name);
@@ -49,7 +49,7 @@ const List = ({
                     value={newName}
                     onChange={setName}
                     onBlur={() => {
-                      reqUpdateList({id, stories, name: newName});
+                      reqUpdateList({id, name: newName});
                       setIsEditingName(false);
                     }}
                   />
