@@ -2,7 +2,7 @@ import React from 'react';
 import {
   DragDropContext,
 } from 'react-beautiful-dnd';
-import Layer from './Layer';
+import List from './List';
 import { Container, Row, Alert, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -10,11 +10,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import CardForm from './CardForm';
-import LayerForm from './LayerForm';
+import ListForm from './ListForm';
 
 import { updateCardList } from '../actions/card';
 
-import { fetchList } from '../actions';
+import { reqFetchList } from '../actions/list';
 
 /**
  * Help to reordering the result
@@ -36,8 +36,8 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
   const [removed] = sourceClone.splice(droppableSource.index, 1);
 
-  // update layer
-  removed.layer_id = droppableDestination.droppableId;
+  // update list
+  removed.list_id = droppableDestination.droppableId;
 
   destClone.splice(droppableDestination.index, 0, removed);
 
@@ -54,7 +54,7 @@ const initialState = {
     message: '',
     visible: false,
     isOpenCardFormModal: false,
-    isOpenLayerFormModal: false,
+    isOpenListFormModal: false,
   },
 };
 
@@ -69,7 +69,7 @@ class Kanban extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchList();
+    this.props.reqFetchList();
   }
 
   /**
@@ -77,7 +77,7 @@ class Kanban extends React.Component {
    */
   getList = (id) => {
     const { cards } = this.props;
-    return cards.filter(s => s.layer_id === id);
+    return cards.filter(s => s.list_id === id);
   }
 
   /**
@@ -93,19 +93,19 @@ class Kanban extends React.Component {
     }
 
     if (source.droppableId === destination.droppableId) {
-      const layerId = source.droppableId;
+      const listId = source.droppableId;
 
       const items = reorder(
-        this.getList(layerId),
+        this.getList(listId),
         source.index,
         destination.index,
       );
 
       const { cards } = this.props;
-      const cardsExceptLayer = cards.filter(s => s.layer_id !== layerId);
+      const cardsExceptList = cards.filter(s => s.list_id !== listId);
 
       updateCardList(
-        [...cardsExceptLayer, ...items],
+        [...cardsExceptList, ...items],
       );
     } else {
       const sourceId = source.droppableId;
@@ -146,20 +146,20 @@ class Kanban extends React.Component {
   handleCloseCardFormModal = () => this.setState({ isOpenCardFormModal: false });
   handleOpenCardFormModal = () => this.setState({ isOpenCardFormModal: true });
   
-  handleOpenLayerModal = () => this.setState({ isOpenLayerFormModal: true });
-  handleCloseLayerModal = () => this.setState({ isOpenLayerFormModal: false });
+  handleOpenListModal = () => this.setState({ isOpenListFormModal: true });
+  handleCloseListModal = () => this.setState({ isOpenListFormModal: false });
 
   render() {
     const {
       project,
       cards,
-      layers,
+      lists,
     } = this.props;
 
     const {
       alert,
       isOpenCardFormModal,
-      isOpenLayerFormModal
+      isOpenListFormModal
     } = this.state;
 
     return (
@@ -169,9 +169,9 @@ class Kanban extends React.Component {
           onHide={this.handleCloseCardFormModal}
         />
 
-        <LayerForm
-          show={isOpenLayerFormModal}
-          onHide={this.handleCloseLayerModal}
+        <ListForm
+          show={isOpenListFormModal}
+          onHide={this.handleCloseListModal}
         />
 
         <Container fluid className="pt-3">
@@ -191,9 +191,9 @@ class Kanban extends React.Component {
               </Button>
               <Button
                 variant="outline-primary"
-                onClick={this.handleOpenLayerModal}
+                onClick={this.handleOpenListModal}
               >
-                Add Layer <FontAwesomeIcon icon={faPlus} />
+                Add List <FontAwesomeIcon icon={faPlus} />
               </Button>
             </Col>
           </Row>
@@ -221,21 +221,21 @@ class Kanban extends React.Component {
 
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Row className="mt-3">
-              <Layer
-                id={-1} // just to notify that is a unvalid layer
+              <List
+                id={-1} // just to notify that is a unvalid list
                 name="Detached"
-                stories={cards.filter(s => s.layer_id === -1)}
+                stories={cards.filter(s => s.list_id === -1)}
                 isDetached
               />
             </Row>
             <Row className="flex-row flex-sm-nowrap mt-3">
               {
-                layers ? layers.map((l, i) => (
-                  <Layer
+                lists ? lists.map((l, i) => (
+                  <List
                     key={i} // change to unique field
                     id={l._id}
                     name={l.name}
-                    stories={cards.filter(s => s.layer_id === l._id)}
+                    stories={cards.filter(s => s.list_id === l._id)}
                   />
                 )) : null
               }
@@ -248,11 +248,11 @@ class Kanban extends React.Component {
 };
 
 const mapStateToProps = store => ({
-  layers: store.layerReducer.layers,
+  lists: store.listReducer.lists,
   cards: store.cardReducer.cards
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ updateCardList, fetchList }, dispatch);
+  bindActionCreators({ updateCardList, reqFetchList }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kanban);

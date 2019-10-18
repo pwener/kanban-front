@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import layerReducer from './layer';
+import listReducer from './list';
 import cardReducer from './card';
 
 
 export const Reducers = combineReducers({
-  layerReducer,
+  listReducer,
   cardReducer,
 });

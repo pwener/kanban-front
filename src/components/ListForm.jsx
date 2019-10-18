@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { createList } from '../actions';
+import { reqCreateList } from '../actions/list';
 
-const LayerForm = ({
+const ListForm = ({
   createList,
   onHide,
   ...modalProps,
 }) => {
-  const [layer, setLayer] = useState('');
+  const [list, setList] = useState('');
 
   return (
     <div onClick={e => e.stopPropagation()}>
       <Modal {...modalProps}>
         <Modal.Body>
-          <h4>Add layer</h4>
+          <h4>Add list</h4>
           <Form>
             <Form.Group controlId="formGroupTitle">
-              <Form.Label>Layer name</Form.Label>
+              <Form.Label>List name</Form.Label>
               <Form.Control
                 placeholder="Choose something like To Do, Doing, Testing..."
-                value={layer.name}
-                onChange={evt => setLayer(evt.target.value)}
+                value={list.name}
+                onChange={evt => setList(evt.target.value)}
               />
             </Form.Group>
           </Form>
@@ -29,7 +29,7 @@ const LayerForm = ({
         <Modal.Footer>
           <Button
             onClick={() => {
-              createList({name: layer});
+              createList({name: list});
               onHide();
           }}>
             Add
@@ -42,8 +42,8 @@ const LayerForm = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    createList: layer => { dispatch(createList(layer)) }
+    createList: list => { dispatch(reqCreateList(list)) }
   }
 }
 
-export default connect(null, mapDispatchToProps)(LayerForm);
+export default connect(null, mapDispatchToProps)(ListForm);

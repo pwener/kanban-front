@@ -32,7 +32,7 @@ const Card = ({ provided, snapshot, card }) => {
         provided.draggableProps.style,
         card.color
       )}
-      className={`p-1 m-2 bg-faded ${isDetached(card.layer_id) ? 'col-2' : 'col-11'}`}
+      className={`p-1 m-2 bg-faded ${isDetached(card.list_id) ? 'col-2' : 'col-11'}`}
       onClick={handleShow}
     >
       <BootstrapCard.Body>

@@ -1,21 +1,21 @@
 import {
-  LAYER_ADD,
-  LAYER_LIST,
-  LAYER_REMOVE,
-  LAYER_UPDATE,
-} from '../actions/actionTypes';
+  LIST_ADD,
+  LIST_SHOW,
+  LIST_REMOVE,
+  LIST_UPDATE,
+} from './actionTypes';
 
 import axios from 'axios';
 
 // TODO put in axios order
 const api = 'http://localhost:8000/lists';
 
-const fetchList = () => {
+const reqFetchList = () => {
   return (dispatch) => {
     return axios.get(`${api}`)
       .then(res => {
         dispatch({
-          type: LAYER_LIST,
+          type: LIST_SHOW,
           lists: res.data,
         })
       })
@@ -29,7 +29,7 @@ const fetchList = () => {
  * Send a new list using http request.
  * This list should be syncronized in clients throught socket.io
  */
-const createList = (list) => {
+const reqCreateList = (list) => {
   return () => {
     return axios.post(`${api}/add`, list)
       .catch((err) => {
@@ -38,7 +38,7 @@ const createList = (list) => {
   }
 };
 
-const updateList = (list) => {
+const reqUpdateList = (list) => {
   return () => {
     return axios.put(`${api}/update`, list)
       .catch((err) => {
@@ -47,7 +47,7 @@ const updateList = (list) => {
   }
 }
 
-const deleteList = (id) => {
+const reqDeleteList = (id) => {
   return () => {
     return axios.delete(`${api}/${id}`)
       .catch(err => {
@@ -56,27 +56,27 @@ const deleteList = (id) => {
   }
 }
 
-const addLayer = (layer) => ({
-  type: LAYER_ADD,
-  newLayer: {...layer, stories: layer.cards},
+const addList = (list) => ({
+  type: LIST_ADD,
+  newList: {...list, stories: list.cards},
 });
 
-const removeLayer = (id) => ({
-  type: LAYER_REMOVE,
-  layer: id,
+const removeList = (id) => ({
+  type: LIST_REMOVE,
+  list: id,
 });
 
-const updateLayer = (layer) => ({
-  type: LAYER_UPDATE,
-  layer
+const updateList = (list) => ({
+  type: LIST_UPDATE,
+  list
 });
 
 export {
-  addLayer,
-  removeLayer,
-  updateLayer,
-  createList,
-  deleteList,
-  fetchList,
+  addList,
+  removeList,
   updateList,
+  reqCreateList,
+  reqDeleteList,
+  reqFetchList,
+  reqUpdateList,
 };

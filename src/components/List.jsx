@@ -6,19 +6,19 @@ import {
 import { Card as BootstrapCard, Row } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { deleteList, updateList } from '../actions';
+import { reqDeleteList, reqUpdateList } from '../actions/list';
 
 import Card from './Card';
 import TransientInput from './TransientInput';
 
 /* eslint-disable react/prop-types */
-const Layer = ({
+const List = ({
     id,
     name,
     stories,
     isDetached,
-    deleteList,
-    updateList,
+    reqDeleteList,
+    reqUpdateList,
 }) => {
   const [ isEditingName, setIsEditingName ] = useState(false);
   const [ newName, setName ] = useState(name);
@@ -39,7 +39,7 @@ const Layer = ({
                 className="close"
                 data-dismiss="alert"
                 aria-label="Close"
-                onClick={() => deleteList(id)}
+                onClick={() => reqDeleteList(id)}
               >
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -49,7 +49,7 @@ const Layer = ({
                     value={newName}
                     onChange={setName}
                     onBlur={() => {
-                      updateList({id, stories, name: newName});
+                      reqUpdateList({id, stories, name: newName});
                       setIsEditingName(false);
                     }}
                   />
@@ -79,6 +79,6 @@ const Layer = ({
 };
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ deleteList, updateList}, dispatch);
+  bindActionCreators({ reqDeleteList, reqUpdateList}, dispatch);
 
-export default connect(null, mapDispatchToProps)(Layer);
+export default connect(null, mapDispatchToProps)(List);

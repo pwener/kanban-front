@@ -1,7 +1,7 @@
-export const LAYER_LIST = 'LAYER_LIST';
-export const LAYER_ADD = 'LAYER_ADD';
-export const LAYER_REMOVE = 'LAYER_REMOVE';
-export const LAYER_UPDATE = 'LAYER_UPDATE';
+export const LIST_SHOW = 'LIST_SHOW';
+export const LIST_ADD = 'LIST_ADD';
+export const LIST_REMOVE = 'LIST_REMOVE';
+export const LIST_UPDATE = 'LIST_UPDATE';
 
 export const CARD_ADD = 'CARD_ADD';
 export const CARD_REMOVE = 'CARD_REMOVE';

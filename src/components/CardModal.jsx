@@ -5,7 +5,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { removeCard, updateCard } from '../actions';
+import { removeCard, updateCard } from '../actions/card';
 
 import TransientInput from './TransientInput';
 
